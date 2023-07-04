@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Equality</title>
+    <link href="../static/style/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+      .row button {
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+        font: 16px Arial;
+        color: #0099cc;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+          <a
+            href="{% url 'main' %}"
+            class="navbar-brand d-flex align-items-center"
+          >
+            <strong>DisMath</strong>
+          </a>
+          <button type="button" class="btn btn-secondary">
+            <strong>Ru</strong>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="container py-5">
+        <a href="{% url 'logic' %}" class="link-secondary">  Назад </a>
+    </section>
+
+    <section class="py-5 text-center container">
+        <div class="row">
+          <div class="col-lg-8 col-md-12 mx-auto">
+            <h1 class="fw-light">Эквивалентность</h1>
+            <img src="../static/img/equality.jpg" class="img-fluid" />
+            <p class="lead text-muted" style="margin-bottom: 0"></p>
+          </div>
+        </div>
+      </section>
+
+    <section class="py-5 text-end container">
+      <div class="row">
+        <div class="col-lg-8 col-md-12 mx-auto">
+          <a href="https://stugum.files.wordpress.com/2014/03/yablonskiy-vvedenie-v-diskretnuyu-matematiku.pdf" target="_blank" class="fw-light link-info">Информация взята с учебника: Яблонский С. В. «Введение в дискретную математику»</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="container pt-5">
+      <form action="/equality/" method="post">
+        {% csrf_token %}
+
+        <div class="row">
+          {# FIRST CONDITION #}
+          <div class="col-5 ">
+            <div
+              class="border p-3"
+              id="first-condition"
+              style="height: 100px"
+            ></div>
+            <input
+              id="first-condition-input"
+              type="hidden"
+              name="firstCondition"
+            />
+
+            <div class="d-flex gap-2 mt-3">
+              <div class="d-flex flex-column gap-2">
+                <div>
+                  <button onclick="addChar('X'); event.preventDefault()">
+                    X
+                  </button>
+                  <button
+                    onclick="addChar('∧'); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Конъюнкция"
+                  >
+                    ∧
+                  </button>
+                  <button
+                    onclick="addChar('∨'); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Дизъюнкция"
+                  >
+                    ∨
+                  </button>
+                  <button
+                    onclick="addChar('¬'); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Отрицание"
+                  >
+                    ¬
+                  </button>
+                  <button
+                    onclick="addChar('→'); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Импликация"
+                  >
+                    &#x2192;
+                  </button>
+                  <button
+                    onclick="addChar('↔'); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Эквивалентность"
+                  >
+                    &#x2194;
+                  </button>
+                  <button
+                    onclick="addChar('↓'); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Стрелка Пирса"
+                  >
+                    &#x2193;
+                  </button>
+                  <button
+                    onclick="addChar('|'); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Штрих Шеффера"
+                  >
+                    |
+                  </button>
+                  <button
+                    onclick="addChar('⊕'); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="XOR"
+                  >
+                    &#8853;
+                  </button>
+                  <button onclick="addChar('('); event.preventDefault()">
+                    (
+                  </button>
+                  <button onclick="addChar(')'); event.preventDefault()">
+                    )
+                  </button>
+                </div>
+
+                <div>
+                  <button onclick="addChar('1'); event.preventDefault()">
+                    1
+                  </button>
+                  <button onclick="addChar('2'); event.preventDefault()">
+                    2
+                  </button>
+                  <button onclick="addChar('3'); event.preventDefault()">
+                    3
+                  </button>
+                  <button onclick="addChar('4'); event.preventDefault()">
+                    4
+                  </button>
+                  <button onclick="addChar('5'); event.preventDefault()">
+                    5
+                  </button>
+                  <button onclick="addChar('6'); event.preventDefault()">
+                    6
+                  </button>
+                  <button onclick="addChar('7'); event.preventDefault()">
+                    7
+                  </button>
+                  <button onclick="addChar('8'); event.preventDefault()">
+                    8
+                  </button>
+                  <button onclick="addChar('9'); event.preventDefault()">
+                    9
+                  </button>
+                  <button onclick="addChar('X'); event.preventDefault()">
+                    0
+                  </button>
+                </div>
+              </div>
+
+              <button
+                class="ms-auto"
+                onclick="removeLastItem(); event.preventDefault()"
+              >
+                🠐
+              </button>
+              <button onclick="clearInput(); event.preventDefault()">C</button>
+            </div>
+          </div>
+
+          <div class="col-2 my-auto d-flex justify-content-center">
+            <button class="w-100 mx-auto" type="submit">Эквивалентны?</button>
+          </div>
+          {# SECOND CONDITION #}
+          <div class="col-5">
+            <div
+              class="border p-3"
+              style="height: 100px"
+              id="second-condition"
+            ></div>
+            <input
+              id="second-condition-input"
+              type="hidden"
+              name="secondCondition"
+            />
+
+            <div class="d-flex gap-2 mt-3">
+              <div class="d-flex flex-column gap-2">
+                <div>
+                  <button onclick="addChar('X', 2); event.preventDefault()">
+                    X
+                  </button>
+                  <button
+                    onclick="addChar('∧', 2); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Конъюнкция"
+                  >
+                    ∧
+                  </button>
+                  <button
+                    onclick="addChar('∨', 2); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Дизъюнкция"
+                  >
+                    ∨
+                  </button>
+                  <button
+                    onclick="addChar('¬', 2); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Отрицание"
+                  >
+                    ¬
+                  </button>
+                  <button
+                    onclick="addChar('→', 2); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Импликация"
+                  >
+                    &#x2192;
+                  </button>
+                  <button
+                    onclick="addChar('↔', 2); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Эквивалентность"
+                  >
+                    &#x2194;
+                  </button>
+                  <button
+                    onclick="addChar('↓', 2); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Стрелка Пирса"
+                  >
+                    &#x2193;
+                  </button>
+                  <button
+                    onclick="addChar('|', 2); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Штрих Шеффера"
+                  >
+                    |
+                  </button>
+                  <button
+                    onclick="addChar('⊕', 2); event.preventDefault()"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="XOR"
+                  >
+                    &#8853;
+                  </button>
+                  <button onclick="addChar('(', 2); event.preventDefault()">
+                    (
+                  </button>
+                  <button onclick="addChar(')', 2); event.preventDefault()">
+                    )
+                  </button>
+                </div>
+
+                <div>
+                  <button onclick="addChar('1', 2); event.preventDefault()">
+                    1
+                  </button>
+                  <button onclick="addChar('2', 2); event.preventDefault()">
+                    2
+                  </button>
+                  <button onclick="addChar('3', 2); event.preventDefault()">
+                    3
+                  </button>
+                  <button onclick="addChar('4', 2); event.preventDefault()">
+                    4
+                  </button>
+                  <button onclick="addChar('5', 2); event.preventDefault()">
+                    5
+                  </button>
+                  <button onclick="addChar('6', 2); event.preventDefault()">
+                    6
+                  </button>
+                  <button onclick="addChar('7', 2); event.preventDefault()">
+                    7
+                  </button>
+                  <button onclick="addChar('8', 2); event.preventDefault()">
+                    8
+                  </button>
+                  <button onclick="addChar('9', 2); event.preventDefault()">
+                    9
+                  </button>
+                  <button onclick="addChar('X', 2); event.preventDefault()">
+                    0
+                  </button>
+                </div>
+              </div>
+
+              <button
+                class="ms-auto"
+                onclick="removeLastItem(2); event.preventDefault()"
+              >
+                🠐
+              </button>
+              <button onclick="clearInput(2); event.preventDefault()">C</button>
+            </div>
+          </div>
+
+
+        </div>
+
+       <div class="row">
+           <div class="col ms-5 me-5 alert alert-secondary mt-4">
+            <div id="first-condition-result" class="d-none">{{ first_expression }}</div>
+            <div id="second-condition-result" class="d-none">{{ second_expression }}</div>
+
+            <div
+              id="condition-result-array"
+              class="alert alert-secondary d-none"
+            >
+            </div>
+            <div id="result" class="d-none">{{ result }}</div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <footer class="text-muted py-5">
+      <div class="container">
+        <p class="mb-1">Сайт находится в разработке!</p>
+      </div>
+    </footer>
+    <script src="../static/style/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/style/js/popper.min.js"></script>
+    <script src="../static/style/js/equality.js"></script>
+  </body>
+</html>

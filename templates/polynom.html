@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Discrete Calc - Logic</title>
+    <link href="../static/style/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+      #textLine {
+        height: 100px;
+        background: white;
+        margin: 10px 0px;
+        padding: 5px;
+        border: solid 1px black;
+        padding-right: 6rem;
+      }
+
+      #textDiv {
+        height: 100px;
+        background: white;
+        margin: 10px 0px;
+        padding: 5px;
+        border: solid 1px black;
+        padding-right: 6rem;
+      }
+
+      button {
+        width: 50px;
+        height: 50px;
+
+        cursor: pointer;
+        font: 32px Arial;
+        color: #0099cc;
+
+        /* На случай, если необходимы именно белые кнопки с чёрной границей */
+        /* background: white;          */
+        /* padding: 5px;               */
+        /* border: solid 1px black;    */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+          <a
+            href="{% url 'main' %}"
+            class="navbar-brand d-flex align-items-center"
+          >
+            <strong>DisMath</strong>
+          </a>
+          <button type="button" class="btn btn-secondary">
+            <strong>Ru</strong>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="container py-5">
+        <a href="{% url 'logic' %}" class="link-secondary">  Назад </a>
+    </section>
+
+    <main>
+      <section class="py-5 text-center container">
+        <div class="row">
+          <div class="col-lg-8 col-md-12 mx-auto">
+            <h1 class="fw-light">Полином Жегалкина</h1>
+            <img src="../static/img/polynome.jpg" class="img-fluid" />
+            <p class="lead text-muted" style="margin-bottom: 0"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-5 text-end container">
+        <div class="row">
+          <div class="col-lg-8 col-md-12 mx-auto">
+            <a href="https://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BB%D0%B8%D0%BD%D0%BE%D0%BC_%D0%96%D0%B5%D0%B3%D0%B0%D0%BB%D0%BA%D0%B8%D0%BD%D0%B0#%D0%9C%D0%B5%D1%82%D0%BE%D0%B4_%D1%82%D1%80%D0%B5%D1%83%D0%B3%D0%BE%D0%BB%D1%8C%D0%BD%D0%B8%D0%BA%D0%B0" target="_blank" class="fw-light link-info">Информация взята с сайта https://ru.wikipedia.org/</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="album bg-light">
+        <div class="container">
+
+          <form action="/polynom/" method="post" class="mb-5" id="form">
+            {% csrf_token %}
+            <div class="d-flex flex-column position-relative">
+              <div id="textDiv"></div>
+              <div class="w-100">
+                <label for="textLine"></label>
+                <input
+                  id="textLine"
+                  name="condition"
+                  value="{{ condition }}"
+                  class="w-100"
+                  readonly
+                  type="hidden"
+                />
+                <button
+                  class="position-absolute"
+                  style="top: 14%; right: 2%"
+                  type="submit"
+                >
+                  =
+                </button>
+              </div>
+              <div class="d-flex gap-2">
+                <div class="d-flex flex-column gap-2">
+                  <div>
+                    <button onclick="addChar('X'); event.preventDefault()">
+                      X
+                    </button>
+                    <button
+                      onclick="addChar('∧'); event.preventDefault()"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Конъюнкция"
+                    >
+                      ∧
+                    </button>
+                    <button
+                      onclick="addChar('∨'); event.preventDefault()"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Дизъюнкция"
+                    >
+                      ∨
+                    </button>
+                    <button
+                      onclick="addChar('¬'); event.preventDefault()"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Отрицание"
+                    >
+                      ¬
+                    </button>
+                    <button
+                      onclick="addChar('→'); event.preventDefault()"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Импликация"
+                    >
+                      &#x2192;
+                    </button>
+                    <button
+                      onclick="addChar('↔'); event.preventDefault()"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Эквивалентность"
+                    >
+                      &#x2194;
+                    </button>
+                    <button
+                      onclick="addChar('↓'); event.preventDefault()"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Стрелка Пирса"
+                    >
+                      &#x2193;
+                    </button>
+                    <button
+                      onclick="addChar('|'); event.preventDefault()"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Штрих Шеффера"
+                    >
+                      |
+                    </button>
+                    <button
+                      onclick="addChar('⊕'); event.preventDefault()"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="XOR"
+                    >
+                      &#8853;
+                    </button>
+                    <button onclick="addChar('('); event.preventDefault()">
+                      (
+                    </button>
+                    <button onclick="addChar(')'); event.preventDefault()">
+                      )
+                    </button>
+                  </div>
+
+                  <div>
+                    <button onclick="addChar('0'); event.preventDefault()">
+                      0
+                    </button>
+                    <button onclick="addChar('1'); event.preventDefault()">
+                      1
+                    </button>
+                    <button onclick="addChar('2'); event.preventDefault()">
+                      2
+                    </button>
+                    <button onclick="addChar('3'); event.preventDefault()">
+                      3
+                    </button>
+                    <button onclick="addChar('4'); event.preventDefault()">
+                      4
+                    </button>
+                    <button onclick="addChar('5'); event.preventDefault()">
+                      5
+                    </button>
+                    <button onclick="addChar('6'); event.preventDefault()">
+                      6
+                    </button>
+                    <button onclick="addChar('7'); event.preventDefault()">
+                      7
+                    </button>
+                    <button onclick="addChar('8'); event.preventDefault()">
+                      8
+                    </button>
+                    <button onclick="addChar('9'); event.preventDefault()">
+                      9
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  class="ms-auto"
+                  onclick="removeLastItem(); event.preventDefault()"
+                >
+                  🠐
+                </button>
+                <button onclick="clearInput(); event.preventDefault()">
+                  C
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="d-none" id="resultArray">
+            {{ result }}
+          </div>
+          <div
+            class="alert alert-secondary d-none"
+            role="alert"
+            id="parsedResult"
+          ></div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="text-muted py-5">
+      <div class="container">
+        <p class="mb-1">Сайт находится в разработке!</p>
+      </div>
+    </footer>
+
+    <script src="../static/style/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/style/js/popper.min.js"></script>
+    <script src="../static/style/js/polynom.js"></script>
+  </body>
+</html>
